@@ -32,12 +32,12 @@ export default class App extends React.Component {
                 <Add />
                 <table>
                     <thead>
-                        <tr><th></th><th className='desc-col'>Question</th><th className='button-col'>Answer</th><th className='button-col'>Trivia</th></tr>
+                        <tr><th></th><th className='desc-col'>Question</th><th className='button-col'>Answer</th><th className='button-col'>Source</th><th className='button-col'>Trivia</th></tr>
                     </thead>
                     <tbody>
                         {
                             this.state.data.map(function(exp){
-                                return <tr key={exp.question}><td className='counterCell'></td><td className='desc-col'>{exp.question}</td><td className='button-col'>{exp.answer}</td><td className='button-col'>{exp.trivia}</td></tr>
+                                return <tr key={exp.question}><td className='counterCell'></td><td className='desc-col'>{exp.question}</td><td className='button-col'>{exp.answer}</td><td className='button-col'>{exp.source}</td><td className='button-col'>{exp.trivia}</td></tr>
                             })
                         }
                     </tbody>

@@ -125,6 +125,7 @@ var Add = function (_React$Component) {
         _this.state = {
             question: '',
             answer: '',
+            source: '',
             trivia: '',
             messageFromServer: '',
             modalIsOpen: false
@@ -154,6 +155,7 @@ var Add = function (_React$Component) {
                 modalIsOpen: false,
                 question: '',
                 answer: '',
+                source: '',
                 trivia: '',
                 messageFromServer: ''
             });
@@ -175,6 +177,7 @@ var Add = function (_React$Component) {
             _axios2.default.post('/insert', querystring.stringify({
                 question: e.state.question,
                 answer: e.state.answer,
+                source: e.state.source,
                 trivia: e.state.trivia
             }), {
                 headers: {
@@ -198,6 +201,12 @@ var Add = function (_React$Component) {
             if (e.target.name == "answer") {
                 this.setState({
                     answer: e.target.value
+                });
+            }
+
+            if (e.target.name == "source") {
+                this.setState({
+                    source: e.target.value
                 });
             }
 
@@ -247,6 +256,12 @@ var Add = function (_React$Component) {
                                 'Answer:'
                             ),
                             _react2.default.createElement('input', { type: 'text', id: 'answer', name: 'answer', value: this.state.answer, onChange: this.handleTextChange }),
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'source' },
+                                'Source:'
+                            ),
+                            _react2.default.createElement('input', { type: 'text', id: 'source', name: 'source', value: this.state.source, onChange: this.handleTextChange }),
                             _react2.default.createElement(
                                 'label',
                                 { htmlFor: 'trivia' },
@@ -411,6 +426,11 @@ var App = function (_React$Component) {
                             _react2.default.createElement(
                                 'th',
                                 { className: 'button-col' },
+                                'Source'
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                { className: 'button-col' },
                                 'Trivia'
                             )
                         )
@@ -432,6 +452,11 @@ var App = function (_React$Component) {
                                     'td',
                                     { className: 'button-col' },
                                     exp.answer
+                                ),
+                                _react2.default.createElement(
+                                    'td',
+                                    { className: 'button-col' },
+                                    exp.source
                                 ),
                                 _react2.default.createElement(
                                     'td',

@@ -14,14 +14,24 @@ router.route('/insert')
   var question = new Question();
   question.question = req.body.question;
   question.answer = req.body.answer;
+  question.source = req.body.source;
   question.trivia = req.body.trivia;
-  question.id = req.body.id;
+  question.id = req.body.id; // generate id here?
   question.save(function(err) {
       if (err)
         res.send(err);
       res.send('Question successfully added!');
   });
 })
+
+/*router.route('/adduser').post(function(req, res) {
+    var user = new User();
+    user.username = req.body.username;
+    user.email = req.body.username;
+    user.hash = generate hash here?
+    user.salt = generate salt here?
+    user.id = generate id here?
+})*/
 
 router.route('/update')
 .post(function(req, res) {

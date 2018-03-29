@@ -5,8 +5,9 @@ var Schema = mongoose.Schema;
 var questionSchema = new Schema({
     question: String,
     answer: String,
+    source: String,
     trivia: String,
     id: Number,
 });
 
-module.exports = mongoose.model('Question', questionSchema);
+module.exports = mongoose.model('Question', questionSchema, 'testing');
