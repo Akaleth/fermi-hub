@@ -1,0 +1,13 @@
+var config =
+{
+    development:
+    {
+        databaseURL: 'your-db-url-here',
+    },
+    production:
+    {
+        databaseURL: 'your-db-url-here',
+    }
+};
+
+module.exports = config;
