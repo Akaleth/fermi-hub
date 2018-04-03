@@ -5,8 +5,10 @@ var Schema = mongoose.Schema;
 var questionSchema = new Schema({
     question: String,
     answer: String,
-    source: String,
+    sourceLabel: String,
+    sourceUrl: String,
     trivia: String,
+    validated: Boolean,
     id: Number,
 });
 

@@ -13,7 +13,8 @@ class Add extends React.Component {
         this.state = {
             question: '',
             answer: '',
-            source: '',
+            sourceLabel: '',
+            sourceUrl: '',
             trivia: '',
             messageFromServer: '',
             modalIsOpen: false
@@ -39,7 +40,8 @@ class Add extends React.Component {
             modalIsOpen: false,
             question: '',
             answer: '',
-            source: '',
+            sourceLabel: '',
+            sourceUrl: '',
             trivia: '',
             messageFromServer: ''
         });
@@ -60,6 +62,8 @@ class Add extends React.Component {
             querystring.stringify({
                 question: e.state.question,
                 answer: e.state.answer,
+                sourceLabel: e.state.sourceLabel,
+                sourceUrl: e.state.sourceUrl,
                 source: e.state.source,
                 trivia: e.state.trivia,
             }),
@@ -87,9 +91,15 @@ class Add extends React.Component {
             });
         }
 
-        if (e.target.name == "source") {
+        if (e.target.name == "sourceLabel") {
             this.setState({
-                source: e.target.value
+                sourceLabel: e.target.value
+            });
+        }
+
+        if(e.target.name == "sourceUrl") {
+            this.setState({
+                sourceUrl: e.target.value
             });
         }
 
@@ -112,7 +122,8 @@ class Add extends React.Component {
                         <fieldset>
                             <label htmlFor="question">Question:</label><input type="text" id="question" name="question" value={this.state.question} onChange={this.handleTextChange}></input>
                             <label htmlFor="answer">Answer:</label><input type="text" id="answer" name="answer" value={this.state.answer} onChange={this.handleTextChange}></input>
-                            <label htmlFor="source">Source:</label><input type="text" id="source" name="source" value={this.state.source} onChange={this.handleTextChange}></input>
+                            <label htmlFor="sourceLabel">Source Label:</label><input type="text" id="sourceLabel" name="sourceLabel" value={this.state.sourceLabel} onChange={this.handleTextChange}></input>
+                            <label htmlFor="sourceUrl">Source URL:</label><input type="text" id="sourceUrl" name="sourceUrl" value={this.state.sourceUrl} onChange={this.handleTextChange}></input>
                             <label htmlFor="trivia">Trivia:</label><input type="text" id="trivia" name="trivia" value={this.state.trivia} onChange={this.handleTextChange}></input>
                         </fieldset>
                         <div className='button-center'>
