@@ -7,6 +7,7 @@ var express = require('express');
 var router = express.Router();
 
 var bcrypt = require('bcrypt');
+var validator = require('validator');
 
 router.get('/', function(req, res) {
     res.render('index')
@@ -27,26 +28,45 @@ router.route('/insert').post(function(req,res) {
 })
 
 router.route('/register').post(function(req, res) {
+    //TODO: show and enforce this simple validation on the client side
+    //TODO: password complexity parameters?
     if(req.body.password != req.body.passwordConfirm) {
         console.log('Passwords do not match.');
         return;
     }
 
-    var user = new User();
-    user.username = req.body.username;
-    user.email = req.body.email;
+    if(!validator.isEmail(req.body.email)) {
+        console.log('Invalid email');
+        return;
+    }
 
-    bcrypt.hash(req.body.password, 10, function(err, hash) {
-        if(err)
+    User.find({$or:[{username:req.body.username}, {email:req.body.email}]}, function(err, user) {
+        if(err) {
             res.send(err);
-        user.password = hash;
-        user.save(function(err) {
-            if(err)
-                res.send(err);
-            res.send('Registration Successful!');
-        });
+        }
+        if(user.length) {
+            console.log('Email or username already in use.');
+        }
+        else {
+            var user = new User();
+            user.username = req.body.username;
+            user.email = req.body.email;
+
+            bcrypt.hash(req.body.password, 10, function(err, hash) {
+                if(err)
+                    res.send(err);
+                user.password = hash;
+                user.save(function(err) {
+                    if(err)
+                        res.send(err);
+                    res.send('Registration Successful!');
+                });
+            });
+        }
     });
 })
+
+//router.route('/')
 
 router.route('/update')
 .post(function(req, res) {
@@ -74,7 +94,7 @@ router.get('/delete', function(req, res){
 
 router.get('/getAll',function(req, res) {
  //var id = req.query.id;
- Question.find({}, function(err, question) {
+ Question.find({validated:true}, function(err, question) {
    if(err) {
      res.send(err);
    }

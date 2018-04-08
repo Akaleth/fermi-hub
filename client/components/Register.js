@@ -24,7 +24,7 @@ class Register extends React.Component {
     }
 
     onClick(e) {
-        e.preventDefault();
+        //e.preventDefault();
         this.registerUser(this);
     }
 
@@ -42,7 +42,9 @@ class Register extends React.Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function(response) {
-                messageFromServer: response.data
+                e.setState({
+                    messageFromServer: response.data
+                });
             });
 
         this.setState({
@@ -50,7 +52,6 @@ class Register extends React.Component {
             email: '',
             password: '',
             passwordConfirm: '',
-            messageFromServer: this.messageFromServer
         });
     }
 
@@ -91,6 +92,7 @@ class Register extends React.Component {
 
                     <input type="submit" value="Submit" />
                 </form>
+                <br />
                 <p>{this.state.messageFromServer}</p>
             </div>
         )

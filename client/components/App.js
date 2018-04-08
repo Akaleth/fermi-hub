@@ -29,7 +29,6 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-                <Add />
                 <table>
                     <thead>
                         <tr><th></th><th className='desc-col'>Question</th><th className='button-col'>Answer</th><th className='button-col'>Source</th><th className='button-col'>Trivia</th></tr>

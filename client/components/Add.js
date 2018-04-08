@@ -111,44 +111,24 @@ class Add extends React.Component {
     }
 
     render() {
-        if(this.state.messageFromServer == ''){
-            return (
-                <div>
-                    <Button bsStyle="success" bsSize="small" onClick={this.openModal}><span className="glyphicon glyphicon-plus"></span></Button>
-                    <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} contentLabel="Add Question" className="Modal">
-                        <Link to={{pathname: '/', search: '' }} style={{ textDecoration: 'none' }}>
-                            <Button bsStyle="danger" bsSize="xsmall" onClick={this.closeModal}><span className="closebtn glyphicon glyphicon-remove"></span></Button>
-                        </Link><br/>
-                        <fieldset>
-                            <label htmlFor="question">Question:</label><input type="text" id="question" name="question" value={this.state.question} onChange={this.handleTextChange}></input>
-                            <label htmlFor="answer">Answer:</label><input type="text" id="answer" name="answer" value={this.state.answer} onChange={this.handleTextChange}></input>
-                            <label htmlFor="sourceLabel">Source Label:</label><input type="text" id="sourceLabel" name="sourceLabel" value={this.state.sourceLabel} onChange={this.handleTextChange}></input>
-                            <label htmlFor="sourceUrl">Source URL:</label><input type="text" id="sourceUrl" name="sourceUrl" value={this.state.sourceUrl} onChange={this.handleTextChange}></input>
-                            <label htmlFor="trivia">Trivia:</label><input type="text" id="trivia" name="trivia" value={this.state.trivia} onChange={this.handleTextChange}></input>
-                        </fieldset>
-                        <div className='button-center'>
-                        <br/>
-                        <Button bsStyle="success" bsSize="small" onClick={this.onClick}>Add New Question</Button>
-                        </div>
-                    </Modal>
-                </div>
-            )
-        }
-        else {
-            return (
-                <div>
-                    <Button bsStyle="success" bsSize="small" onClick={this.openModal}><span className="glyphicon glyphicon-plus"></span></Button>
-                    <Modal isOpen={this.state.modalIsOpen} onAfterOpen={this.afterOpenModal} onRequestClose={this.closeModal} contentLabel="Add Question" className="Modal">
-                        <div className='button-center'>
-                            <h3>{this.state.messageFromServer}</h3>
-                            <Link to={{pathname: '/', search: '' }} style={{ textDecoration: 'none' }}>
-                                <Button bsStyle="success" bsSize="xsmall" onClick={this.closeModal}>Close the Dialog</Button>
-                            </Link>
-                        </div>
-                    </Modal>
-                </div>
-            )
-        }
+        return (
+            <div>
+                {/* <Button bsStyle="success" bsSize="small" onClick={this.openModal}><span className="glyphicon glyphicon-plus"></span></Button>
+            <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} contentLabel="Add Question" className="Modal"> */ }
+                    <fieldset>
+                        <label htmlFor="question">Question:</label><input size="65" type="text" id="question" name="question" value={this.state.question} onChange={this.handleTextChange}></input>< br />
+                        <label htmlFor="answer">Answer:</label><input type="text" id="answer" name="answer" value={this.state.answer} onChange={this.handleTextChange}></input>< br />
+                        <label htmlFor="sourceLabel">Source Label:</label><input type="text" id="sourceLabel" name="sourceLabel" value={this.state.sourceLabel} onChange={this.handleTextChange}></input>< br />
+                        <label htmlFor="sourceUrl">Source URL:</label><input type="text" id="sourceUrl" name="sourceUrl" value={this.state.sourceUrl} onChange={this.handleTextChange}></input>< br />
+                        <label htmlFor="trivia">Trivia:</label><input type="text" id="trivia" name="trivia" value={this.state.trivia} onChange={this.handleTextChange}></input>< br />
+                    </fieldset>
+                    <div className='button-center'>
+                    <br/>
+                    <Button bsStyle="success" bsSize="small" onClick={this.onClick}>Add New Question</Button>
+                    </div>
+                {/*</Modal>*/}
+            </div>
+        )
     }
 }
 export default Add;

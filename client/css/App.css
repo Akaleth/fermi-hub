@@ -82,6 +82,7 @@ label {
 fieldset {
     border:none;
     margin:0px auto;
+    text-align:left;
 }
 body {
     text-align:center;
