@@ -1,6 +1,7 @@
 //client/component/Register.js
 import React from 'react';
 import {Button} from 'react-bootstrap';
+import {Redirect} from 'react-router';
 import Modal from 'react-modal';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
@@ -15,8 +16,9 @@ class Register extends React.Component {
             email: '',
             password: '',
             passwordConfirm: '',
-            messageFromServer: ''
-        }
+            messageFromServer: '',
+            toIndex: '',
+        };
 
         this.onClick = this.onClick.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
@@ -24,7 +26,7 @@ class Register extends React.Component {
     }
 
     onClick(e) {
-        //e.preventDefault();
+        e.preventDefault();
         this.registerUser(this);
     }
 
@@ -42,17 +44,21 @@ class Register extends React.Component {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function(response) {
-                e.setState({
-                    messageFromServer: response.data
-                });
-            });
+                // registration failed
+                if(response.status == 400) {
+                    e.setState({
+                        messageFromServer: response.data
+                    });
+                }
 
-        this.setState({
-            username: '',
-            email: '',
-            password: '',
-            passwordConfirm: '',
-        });
+                // registration succeeded
+                else if(response.status == 200) {
+                    e.setState({
+                        toIndex: true
+                    });
+                    window.sessionStorage.setItem('user', response.data);
+                }
+            });
     }
 
     handleTextChange(e) {
@@ -82,6 +88,9 @@ class Register extends React.Component {
     }
 
     render() {
+        if(this.state.toIndex) {
+            return ( <Redirect to="/" /> )
+        }
         return (
             <div>
                 <form onSubmit={this.onClick}>
@@ -93,7 +102,6 @@ class Register extends React.Component {
                     <input type="submit" value="Submit" />
                 </form>
                 <br />
-                <p>{this.state.messageFromServer}</p>
             </div>
         )
     }

@@ -2,55 +2,58 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
 import Modal from 'react-modal';
+import {Redirect} from 'react-router';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
 var querystring = require('querystring');
 
-class Register extends React.Component {
+class Login extends React.Component {
     constructor() {
         super();
         this.state = {
-            email: '',
+            username: '',
             password: '',
-            messageFromServer: ''
-        }
+            messageFromServer: '',
+            toIndex: false,
+        };
 
         this.onClick = this.onClick.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
-        this.registerUser = this.registerUser.bind(this);
+        this.login = this.login.bind(this);
     }
 
     onClick(e) {
         e.preventDefault();
-        this.registerUser(this);
+        this.login(this);
     }
 
-    registerUser(e) {
+    login(e) {
         //e.preventDefault();
         axios.post('/login',
             querystring.stringify({
                 username: e.state.username,
-                email: e.state.email,
                 password: e.state.password,
-                passwordConfirm: e.state.passwordConfirm
             }),
             {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             }).then(function(response) {
-                e.setState({
-                    messageFromServer: response.data
-                });
+                // login failed
+                if(response.status == 401) {
+                    e.setState({
+                        messageFromServer: response.data
+                    });
+                }
+                // login succeeded
+                else if(response.status == 200) {
+                    e.setState({
+                        toIndex: true
+                    });
+                    window.sessionStorage.setItem('user', response.data);
+                }
             });
-
-        this.setState({
-            username: '',
-            email: '',
-            password: '',
-            passwordConfirm: '',
-        });
     }
 
     handleTextChange(e) {
@@ -60,35 +63,24 @@ class Register extends React.Component {
             });
         }
 
-        if(e.target.name == "email") {
-            this.setState({
-                email: e.target.value
-            });
-        }
-
         if(e.target.name == "password") {
             this.setState({
                 password: e.target.value
             });
         }
-
-        if(e.target.name == "passwordConfirm") {
-            this.setState({
-                passwordConfirm: e.target.value
-            });
-        }
     }
 
     render() {
+        if(this.state.toIndex) {
+            return ( <Redirect to="/" /> )
+        }
         return (
             <div>
                 <form onSubmit={this.onClick}>
                     <label>Username:</label><input type="text" name="username" value={this.state.username} onChange={this.handleTextChange} /> <br />
-                    <label>Email:</label><input type="text" name="email" value={this.state.email} onChange={this.handleTextChange} /> <br />
                     <label>Password:</label><input type="password" name="password" value={this.state.password} onChange={this.handleTextChange} /> <br />
-                    <label>Confirm Password:</label><input type="password" name="passwordConfirm" value={this.state.passwordConfirm} onChange={this.handleTextChange} /> <br />
 
-                    <input type="submit" value="Submit" />
+                    <input type="submit" value="Login" />
                 </form>
                 <br />
                 <p>{this.state.messageFromServer}</p>
@@ -97,4 +89,4 @@ class Register extends React.Component {
     }
 }
 
-export default Register;
+export default Login;

@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Add from './Add'
 
 export default class App extends React.Component {
     constructor() {

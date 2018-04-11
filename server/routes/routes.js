@@ -9,9 +9,24 @@ var router = express.Router();
 var bcrypt = require('bcrypt');
 var validator = require('validator');
 
+function requireLogin (req, res, next) {
+    if (!req.user) {
+        res.redirect('/login');
+    }
+    else {
+        next();
+    }
+};
+
 router.get('/', function(req, res) {
     res.render('index')
+    console.log("Is this happening");
 });
+
+// TODO: setup dashboard functionality on client side
+/*router.get('/dashboard', requireLogin);*/
+
+router.get('/add', requireLogin);
 
 router.route('/insert').post(function(req,res) {
     var question = new Question();
@@ -28,43 +43,119 @@ router.route('/insert').post(function(req,res) {
 })
 
 router.route('/register').post(function(req, res) {
-    //TODO: show and enforce this simple validation on the client side
+    //TODO: show and enforce this validation on the client side
     //TODO: password complexity parameters?
     if(req.body.password != req.body.passwordConfirm) {
-        console.log('Passwords do not match.');
-        return;
+        res.send({
+            status: 400,
+            data: "Passwords do not match",
+            error: "",
+        });
     }
 
-    if(!validator.isEmail(req.body.email)) {
-        console.log('Invalid email');
-        return;
+    else if(!validator.isEmail(req.body.email)) {
+        res.send({
+            status: 400,
+            data: "Invalid email",
+            error:""
+        });
     }
+    else {
+        User.find({$or:[{username:req.body.username}, {email:req.body.email}]}, function(err, user) {
+            if(err) {
+                res.send({
+                    status:400,
+                    data:"Database error",
+                    error:err,
+                });
+            }
+            if(user.length) {
+                res.send({
+                    status:400,
+                    data:"Email or username already in use.",
+                    error:'',
+                });
+            }
+            else {
+                var user = new User();
+                user.username = req.body.username;
+                user.email = req.body.email;
 
-    User.find({$or:[{username:req.body.username}, {email:req.body.email}]}, function(err, user) {
-        if(err) {
-            res.send(err);
-        }
-        if(user.length) {
-            console.log('Email or username already in use.');
+                bcrypt.hash(req.body.password, 10, function(err, hash) {
+                    if(err)
+                        res.send({
+                            status:400,
+                            data:"Encryption error",
+                            error:err,
+                        });
+                    user.password = hash;
+                    user.save(function(err) {
+                        if(err)
+                            res.send({
+                                status:400,
+                                data:"Database error",
+                                error:err,
+                            });
+                        //res.send('Registration Successful!');
+                        //req.session.user = user.username;
+                        res.send({
+                            status:200,
+                            data:user.username,
+                            error:""
+                        });
+                    });
+                });
+            }
+        });
+    }
+})
+
+router.route('/login').post(function(req, res) {
+    User.findOne({username: req.body.username}, function(err, user) {
+        if(err)
+            res.send({
+                status: 401,
+                data: "Invalid login - database error",
+                error: err,
+            });
+        if(!user) {
+            res.send({
+                status: 401,
+                data: "Invalid login credentials",
+                error: '',
+            });
         }
         else {
-            var user = new User();
-            user.username = req.body.username;
-            user.email = req.body.email;
-
-            bcrypt.hash(req.body.password, 10, function(err, hash) {
-                if(err)
-                    res.send(err);
-                user.password = hash;
-                user.save(function(err) {
-                    if(err)
-                        res.send(err);
-                    res.send('Registration Successful!');
-                });
+            bcrypt.compare(req.body.password, user.password, function(err, response) {
+                if(response) {
+                    //req.session.user = user;
+                    res.send({
+                        status: 200,
+                        data: user.username,
+                        errors:'',
+                    });
+                }
+                else {
+                    res.send({
+                        status: 401,
+                        data: "Invalid login credentials",
+                        error: '',
+                    });
+                }
             });
+
         }
     });
 })
+
+router.route('/currentuser').get(function(req, res) {
+    if(!req.session || !req.session.user) {
+        res.send('');
+    }
+    else {
+        res.send(req.session.user.username);
+    }
+});
 
 //router.route('/')
 
