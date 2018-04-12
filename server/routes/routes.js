@@ -32,7 +32,9 @@ router.route('/insert').post(function(req,res) {
     var question = new Question();
     question.question = req.body.question;
     question.answer = req.body.answer;
-    question.source = req.body.source;
+    question.sourceUrl = req.body.sourceUrl;
+    question.sourceLabel = req.body.sourceLabel;
+    question.user = req.body.user;
     question.trivia = req.body.trivia;
     question.validated = false;
     question.save(function(err) {

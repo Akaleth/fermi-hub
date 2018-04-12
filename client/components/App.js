@@ -40,7 +40,7 @@ export default class App extends React.Component {
             <div>
                 <Header onUpdateUser={(data) => this.setState({userData: { username:data.username }})} userData={this.state.userData} />
                 <HashRouter>
-                    <Routes onUpdateUser={(data) => this.setState({userData: { username:data.username }})} />
+                    <Routes onUpdateUser={(data) => this.setState({userData: { username:data.username }})} userData={this.state.userData} />
                 </HashRouter>
             </div>
         );

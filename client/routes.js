@@ -14,7 +14,7 @@ export const Routes = (props) => (
         <Switch>
             <Route exact path='/' render={() => <Game {...props}/>} />
             <Route exact path='/register' component={Register} {...props} />
-            <Route exact path='/add' component={Add} {...props} />
+            <Route exact path='/add' render={() => <Add {...props}/>} />
             <Route exact path='/login' render={() => <Login {...props}/>} />
         </Switch>
     </div>

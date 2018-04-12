@@ -8,8 +8,8 @@ import {Link} from 'react-router-dom';
 var querystring = require('querystring');
 
 class Add extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             question: '',
             answer: '',
@@ -19,7 +19,7 @@ class Add extends React.Component {
             messageFromServer: '',
             modalIsOpen: false
         };
-        
+
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
@@ -67,6 +67,7 @@ class Add extends React.Component {
                 sourceUrl: e.state.sourceUrl,
                 source: e.state.source,
                 trivia: e.state.trivia,
+                user: e.props.userData.username,
             }),
             {
                 headers: {

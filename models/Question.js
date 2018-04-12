@@ -8,6 +8,7 @@ var questionSchema = new Schema({
     sourceLabel: String,
     sourceUrl: String,
     trivia: String,
+    user: String,
     validated: Boolean,
     id: Number,
 });
