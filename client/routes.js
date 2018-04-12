@@ -10,7 +10,7 @@ import NavBar from './components/Navbar';
 
 export const Routes = (props) => (
     <div>
-        <NavBar />
+        <NavBar {...props}/>
         <Switch>
             <Route exact path='/' render={() => <Game {...props}/>} />
             <Route exact path='/register' component={Register} {...props} />
