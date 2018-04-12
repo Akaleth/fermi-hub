@@ -1,20 +1,23 @@
 //client/routes.js
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import App from './components/App';
+import Data from './components/Data';
 import Register from './components/Register';
 import Add from './components/Add';
 import Login from './components/Login';
+import Game from './components/Game';
+import NavBar from './components/Navbar';
 
-const UserContext = React.createContext('');
-
-export const Routes = () => (
-    <Switch>
-        <Route exact path='/' component={App} />
-        <Route exact path='/register' component={Register} />
-        <Route exact path='/add' component={Add} />
-        <Route exact path='/login' component={Login} />
-    </Switch>
+export const Routes = (props) => (
+    <div>
+        <NavBar />
+        <Switch>
+            <Route exact path='/' render={() => <Game {...props}/>} />
+            <Route exact path='/register' component={Register} {...props} />
+            <Route exact path='/add' component={Add} {...props} />
+            <Route exact path='/login' render={() => <Login {...props}/>} />
+        </Switch>
+    </div>
 );
 
 export default Routes;

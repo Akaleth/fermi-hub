@@ -90,3 +90,16 @@ body {
 .closebtn {
    float:right;
 }
+
+#head-navbar {
+  display: inline-block;
+  overflow: hidden;
+  text-align:center;
+}
+.nav>li {
+  display: inline-block;
+  white-space: nowrap;
+}
+ul.navbar-nav {
+  display: inline-block;
+}

@@ -1,39 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import NavBar from './Navbar';
 
 class Header extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            username: '',
-        };
-
-        this.getUser = this.getUser.bind(this);
-    }
-
-    componentDidMount() {
-        this.setState({
-            username: window.sessionStorage.user
-        });
-    }
-
-    getUser(e) {
-        /*axios.get('currentuser').then(function(res) {
-            e.setState({
-                username: res.data
-            });
-        });*/
+    constructor(props) {
+        super(props);
     }
 
     render() {
-        return (
-            <UserContext.Consumer>
-                {username => (
-                    <p id="username" value={username} />
-                )}
-            </UserContext.Consumer>
-        );
+        if(this.props.userData.username) {
+            return (
+                <div>
+                    <p id="username">logged in as: {this.props.userData.username}</p>
+                </div>
+            )
+        }
+        return null;
     }
 }
 

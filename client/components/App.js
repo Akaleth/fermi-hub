@@ -2,44 +2,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import Header from './Header'
+import { HashRouter } from 'react-router-dom'
+import Routes from '../routes'
 
 export default class App extends React.Component {
     constructor() {
         super();
-        this.state = {data: []};
-        this.getData = this.getData.bind(this);
+        this.state = {
+            userData: {
+                username:'',
+                token:''
+            },
+        };
+
+        //this.updateUserData = this.updateUserData.bind(this);
     }
 
-    componentDidMount() {
-        this.getData(this);
-    }
+    /*updateUserData = (data) => {
+        this.setState({
+            userData: {
+                username: data.username
+            }
+        })
+    }*/
 
-    componentWillReceiveProps(nextProps) {
-        this.getData(this);
-    }
-
-    getData(ev) {
-        axios.get('/getAll').then(function(response) {
-            console.log(response);
-            ev.setState({data: response.data});
+    /*updateUserData(e, data) {
+        e.setState({
+            userData: {
+                username: data.username
+            }
         });
-    }
+    }*/
 
     render() {
         return (
             <div>
-                <table>
-                    <thead>
-                        <tr><th></th><th className='desc-col'>Question</th><th className='button-col'>Answer</th><th className='button-col'>Source</th><th className='button-col'>Trivia</th></tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.state.data.map(function(exp){
-                                return <tr key={exp.question}><td className='counterCell'></td><td className='desc-col'>{exp.question}</td><td className='button-col'>{exp.answer}</td><td className='button-col'>{exp.source}</td><td className='button-col'>{exp.trivia}</td></tr>
-                            })
-                        }
-                    </tbody>
-                </table>
+                <Header onUpdateUser={(data) => this.setState({userData: { username:data.username }})} userData={this.state.userData} />
+                <HashRouter>
+                    <Routes onUpdateUser={(data) => this.setState({userData: { username:data.username }})} />
+                </HashRouter>
             </div>
         );
     }

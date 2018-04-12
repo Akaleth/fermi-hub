@@ -9,8 +9,8 @@ import {Link} from 'react-router-dom';
 var querystring = require('querystring');
 
 class Login extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             username: '',
             password: '',
@@ -39,7 +39,7 @@ class Login extends React.Component {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
-            }).then(function(response) {
+            }).then((response) => {
                 // login failed
                 if(response.status == 401) {
                     e.setState({
@@ -51,7 +51,8 @@ class Login extends React.Component {
                     e.setState({
                         toIndex: true
                     });
-                    window.sessionStorage.setItem('user', response.data);
+                    //window.sessionStorage.setItem('user', response.data);
+                    e.props.onUpdateUser({username:response.data.data});
                 }
             });
     }
